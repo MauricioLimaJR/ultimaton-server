@@ -5,10 +5,8 @@
   "description": "Adonisjs boilerplate for API server with pre-configured JWT",
   "main": "index.js",
   "scripts": {
-    "start:dev": "node server.js",
+    "start": "node server.js",
     "test": "node ace test",
-    "heroku-prebuild": "npm install pm2 -g",
-    "start": "pm2-runtime start ecosystem.config.js --env production"
   },
   "keywords": [
     "adonisjs",
