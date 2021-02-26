@@ -4,15 +4,15 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const FavouriteCharacter = use('App/Models/FavouriteCharacter')
+const FavouriteComic = use('App/Models/FavouriteComic')
 
 /**
- * Resourceful controller for interacting with favourite characters
+ * Resourceful controller for interacting with favourite comics
  */
-class FavouriteCharacterController {
+class FavouriteComicController {
   /**
-   * List all favourite characters
-   * GET favourites/characters/?user_id
+   * List all favourite comics
+   * GET favourites/comics/?user_id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -22,20 +22,20 @@ class FavouriteCharacterController {
     try {
       const { user_id } = request.all()
 
-      const favouriteCharacters = FavouriteCharacter
+      const favouriteComics = FavouriteComic
         .query()
         .where('user_id', user_id)
         .fetch()
 
-      return favouriteCharacters
+      return favouriteComics
     } catch (err) {
       return response.status(500).send({ error: err.message })
     }
   }
 
   /**
-   * Create/save a new favourite character.
-   * POST favourites/characters
+   * Create/save a new favourite comic.
+   * POST favourites/comics
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -43,20 +43,20 @@ class FavouriteCharacterController {
    */
   async store ({ request, response, auth }) {
     try {
-      const data = request.only(['character_id'])
+      const data = request.only(['comic_id'])
       const user_id = auth.user.id
 
-      const favouriteCharacter = await FavouriteCharacter.create({ ...data, user_id })
+      const favouriteComic = await FavouriteComic.create({ ...data, user_id })
 
-      return favouriteCharacter
+      return favouriteComic
     } catch (err) {
       return response.status(500).send({ error: err.message })
     }
   }
 
   /**
-   * Delete a favourite character with id.
-   * DELETE favourites/characters/:id
+   * Delete a favourite comic with id.
+   * DELETE favourites/comics/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -66,13 +66,13 @@ class FavouriteCharacterController {
     try {
       const { id } = params
 
-      const favouriteCharacter = await FavouriteCharacter.find(id)
+      const favouriteComic = await FavouriteComic.find(id)
 
-      await favouriteCharacter.delete()
+      await favouriteComic.delete()
     } catch (err) {
       return response.status(500).send({ error: err.message })
     }
   }
 }
 
-module.exports = FavouriteCharacterController
+module.exports = FavouriteComicController

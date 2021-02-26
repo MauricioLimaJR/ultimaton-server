@@ -28,7 +28,12 @@ Route.put('/users', 'UserController.update').middleware('auth')
 // Session routes
 Route.post('/sessions', 'SessionController.create')
 
-// Place routes
+// Favourite Characters routes
 Route.resource('favourites/characters', 'FavouriteCharacterController')
+  .apiOnly()
+  .middleware('auth')
+
+// Favourite Comics routes
+Route.resource('favourites/comics', 'FavouriteComicController')
   .apiOnly()
   .middleware('auth')
