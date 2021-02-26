@@ -17,5 +17,13 @@
 const Route = use('Route')
 
 Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
+  return { greeting: 'Ultimaton Server, welcome!' }
 })
+
+// User routes
+Route.post('/users', 'UserController.store')
+Route.get('/users', 'UserController.show').middleware('auth')
+Route.put('/users', 'UserController.update').middleware('auth')
+
+// Session routes
+Route.post('/sessions', 'SessionController.create')
