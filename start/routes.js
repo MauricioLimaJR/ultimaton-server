@@ -27,3 +27,8 @@ Route.put('/users', 'UserController.update').middleware('auth')
 
 // Session routes
 Route.post('/sessions', 'SessionController.create')
+
+// Place routes
+Route.resource('favourites/characters', 'FavouriteCharacterController')
+  .apiOnly()
+  .middleware('auth')

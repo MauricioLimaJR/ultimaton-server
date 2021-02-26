@@ -9,7 +9,7 @@ class UserSchema extends Schema {
       table.increments()
       table.string('firstname', 80).notNullable()
       table.string('lastname', 80).notNullable()
-      table.string('email', 254).notNullable().unique()
+      table.string('email', 80).notNullable().unique()
       table.string('password', 60).notNullable()
       table.timestamps()
     })
