@@ -15,9 +15,9 @@ class UserController {
     try {
       const data = request.only(['firstname', 'lastname', 'email', 'password'])
 
-      const user = await User.create(data)
+      await User.create(data)
 
-      return user
+      return response.status(204).send()
     } catch (err) {
       if (err.code === '23505')
         return response.status(500).send({ error: 'email already in use' })
