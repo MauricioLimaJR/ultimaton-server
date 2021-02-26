@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'matched-betting-tracker',
-      script: './index.js',
+      script: './server.js',
       instances: 'max',
       env: {
         NODE_ENV: 'development',
