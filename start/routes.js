@@ -28,6 +28,9 @@ Route.put('/users', 'UserController.update').middleware('auth')
 // Session routes
 Route.post('/sessions', 'SessionController.create')
 
+// Search routes
+Route.get('/marvel', 'MarvelController.search')
+
 // Favourite Characters routes
 Route.resource('favourites/characters', 'FavouriteCharacterController')
   .apiOnly()
