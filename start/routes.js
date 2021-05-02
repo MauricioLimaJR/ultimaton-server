@@ -29,6 +29,7 @@ Route.put('/users', 'UserController.update').middleware('auth')
 Route.post('/sessions', 'SessionController.create')
 
 // Search routes
+Route.get('/marvel/initial-set', 'MarvelController.initialSet')
 Route.get('/marvel', 'MarvelController.search')
 
 // Favourite Characters routes

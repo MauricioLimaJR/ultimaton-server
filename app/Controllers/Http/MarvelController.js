@@ -8,7 +8,45 @@ const MarvelApi = use('App/Models/MarvelApi')
 
 const { COMMON } = require('../../constants/errors')
 
+const charactersListParser = (list) =>
+  list.map((character) => {
+    const { id, name, description, thumbnail } = character
+    return { id, name, description, thumbnail }
+  })
+
+const comicsListParser = (list) =>
+  list.map((comic) => {
+    const { id, title, description, thumbnail } = comic
+    return { id, title, description, thumbnail }
+  })
+
 class MarvelController {
+  /**
+   * Search characters and comics
+   * GET marvel
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async initialSet({ request, response }) {
+    try {
+      const { offset = 0, limit = 20 } = request.get()
+
+      const charactersAndComics = await MarvelApi.getInitialSet(offset, limit)
+      console.log(charactersAndComics)
+      const initialSet = {
+        characters: charactersListParser(charactersAndComics.characters),
+        comics: comicsListParser(charactersAndComics.comics),
+      }
+
+      return response.status(200).send(initialSet)
+    } catch (err) {
+      console.error(err)
+      return response.status(500).send({ error: COMMON })
+    }
+  }
+
   /**
    * Search characters and comics
    * GET marvel
@@ -25,23 +63,13 @@ class MarvelController {
       let comicsList = []
 
       if (characters) {
-        const queryResponse = await MarvelApi.getCharacters(query, limit)
-        const charactersQueried = queryResponse.data.data.results
-
-        charactersList = charactersQueried.map((character) => {
-          const { id, name, description, thumbnail } = character
-          return { id, name, description, thumbnail }
-        })
+        const charactersQueried = await MarvelApi.getCharacters(query, limit)
+        charactersList = charactersListParser(charactersQueried)
       }
 
       if (comics) {
-        const queryResponse = await MarvelApi.getComics(query, limit)
-        const comicsQueried = queryResponse.data.data.results
-
-        comicsList = comicsQueried.map((comic) => {
-          const { id, title, description, thumbnail } = comic
-          return { id, title, description, thumbnail }
-        })
+        const comicsQueried = await MarvelApi.getComics(query, limit)
+        comicsList = comicsListParser(comicsQueried)
       }
 
       return response.status(200).send({ charactersList, comicsList })
