@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Models/User')
+const { EMAIL_ALREADY_IN_USE } = require('../../constants/errors')
 
 class UserController {
   /**
@@ -20,7 +21,7 @@ class UserController {
       return response.status(204).send()
     } catch (err) {
       if (err.code === '23505')
-        return response.status(500).send({ error: 'email already in use' })
+        return response.status(409).send(EMAIL_ALREADY_IN_USE)
       return response.status(500).send({ error: err.message })
     }
   }
