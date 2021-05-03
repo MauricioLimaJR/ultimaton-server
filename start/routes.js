@@ -31,6 +31,8 @@ Route.post('/sessions', 'SessionController.create')
 // Search routes
 Route.get('/marvel/initial-set', 'MarvelController.initialSet')
 Route.get('/marvel', 'MarvelController.search')
+Route.get('/marvel/character/:id', 'MarvelController.searchCharacter')
+Route.get('/marvel/comic/:id', 'MarvelController.searchComic')
 
 // Favourite Characters routes
 Route.resource('favourites/characters', 'FavouriteCharacterController')

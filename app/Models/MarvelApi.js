@@ -21,10 +21,34 @@ class MarvelApi extends Model {
     return { characters, comics }
   }
 
+  static async getCharacterById(id) {
+    const apiResponse = await api.get(`/v1/public/characters/${id}`)
+
+    return apiResponse.data.data.results
+  }
+
+  static async getCharacterComics(id) {
+    const apiResponse = await api.get(`/v1/public/characters/${id}/comics`)
+
+    return apiResponse.data.data.results
+  }
+
   static async getCharacters(query, limit) {
     const apiResponse = await api.get(
       `/v1/public/characters?nameStartsWith=${query}&limit=${limit}`
     )
+
+    return apiResponse.data.data.results
+  }
+
+  static async getComicById(id) {
+    const apiResponse = await api.get(`/v1/public/comics/${id}`)
+
+    return apiResponse.data.data.results
+  }
+
+  static async getComicCharacters(id) {
+    const apiResponse = await api.get(`/v1/public/comics/${id}/characters`)
 
     return apiResponse.data.data.results
   }

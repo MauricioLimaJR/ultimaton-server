@@ -78,6 +78,56 @@ class MarvelController {
       return response.status(500).send({ error: COMMON })
     }
   }
+
+  /**
+   * Search marvel's character
+   * GET marvel
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async searchCharacter({ params, response }) {
+    try {
+      const { id } = params
+
+      const characterResponse = await MarvelApi.getCharacterById(id)
+      const characterComicsResponse = await MarvelApi.getCharacterComics(id)
+
+      const character = charactersListParser(characterResponse)[0]
+      character.relatedItems = comicsListParser(characterComicsResponse)
+
+      return response.status(200).send(character)
+    } catch (err) {
+      console.error(err)
+      return response.status(500).send({ error: COMMON })
+    }
+  }
+
+  /**
+   * Search marvel's comic
+   * GET marvel
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async searchComic({ params, response }) {
+    try {
+      const { id } = params
+
+      const comicResponse = await MarvelApi.getComicById(id)
+      const comicCharactersResponse = await MarvelApi.getComicCharacters(id)
+
+      const comic = comicsListParser(comicResponse)[0]
+      comic.relatedItems = charactersListParser(comicCharactersResponse)
+
+      return response.status(200).send(comic)
+    } catch (err) {
+      console.error(err)
+      return response.status(500).send({ error: COMMON })
+    }
+  }
 }
 
 module.exports = MarvelController
